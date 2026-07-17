@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>汪汪与小哭宝的每日小记 🐶💕</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@300;400;700&display=swap');
+
+  :root {
+    --kitty-pink: #FF8FAB;
+    --kitty-red: #E63946;
+    --kitty-white: #FFFFFF;
+    --bg-pink: #FFF0F5;
+    --bow-pink: #FFB3C6;
+    --text-dark: #5C4033;
+    --text-gray: #9A7E7E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background-color: #FFF5F7;
+    background-image:
+      radial-gradient(circle at 15% 20%, #FFE4E1 0%, transparent 50%),
+      radial-gradient(circle at 85% 70%, #FFDDE4 0%, transparent 50%),
+      radial-gradient(circle at 70% 15%, #FFECF2 0%, transparent 45%),
+      radial-gradient(circle at 25% 80%, #FFE9F0 0%, transparent 45%),
+      radial-gradient(circle at 50% 50%, #FFF0F3 0%, transparent 60%);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── 圆点+爱心纹理背景 ── */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      radial-gradient(circle, rgba(255,143,171,0.14) 1.5px, transparent 1.5px),
+      radial-gradient(circle, rgba(255,183,197,0.10) 2px, transparent 2px),
+      radial-gradient(circle, rgba(255,143,171,0.08) 1px, transparent 1px);
+    background-size: 48px 48px, 96px 96px, 72px 72px;
+    background-position: 0 0, 48px 48px, 24px 24px;
+  }
+
+  /* ── 浮动装饰 ── */
+  .floating-decos {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    top: 0; left: 0; width: 100%; height: 100%;
+  }
+  .deco {
+    position: absolute;
+    animation: floatDeco 22s infinite linear;
+    font-size: 1.8rem;
+    opacity: 0.5;
+  }
+  .deco:nth-child(1)  { top:4%;  left:4%;  animation-delay:0s;    }
+  .deco:nth-child(2)  { top:10%; right:5%;  animation-delay:-4s;   }
+  .deco:nth-child(3)  { top:22%; left:90%; animation-delay:-9s;   }
+  .deco:nth-child(4)  { top:55%; left:3%;  animation-delay:-14s;  }
+  .deco:nth-child(5)  { top:70%; right:7%; animation-delay:-7s;   }
+  .deco:nth-child(6)  { top:82%; left:40%; animation-delay:-18s;  }
+  .deco:nth-child(7)  { top:35%; left:94%; animation-delay:-21s;  }
+  .deco:nth-child(8)  { top:88%; left:6%;  animation-delay:-3s;   }
+  .deco:nth-child(9)  { top:48%; right:3%; animation-delay:-12s;  }
+  .deco:nth-child(10) { top:15%; left:45%; animation-delay:-16s;  }
+  .deco:nth-child(11) { top:6%;  left:22%; animation-delay:-2s;  font-size:1.4rem; }
+  .deco:nth-child(12) { top:28%; left:8%;  animation-delay:-6s;  font-size:2rem;   }
+  .deco:nth-child(13) { top:40%; left:16%; animation-delay:-11s; font-size:1.3rem; }
+  .deco:nth-child(14) { top:62%; right:14%; animation-delay:-15s; font-size:1.9rem; }
+  .deco:nth-child(15) { top:75%; left:18%; animation-delay:-19s; font-size:1.5rem; }
+  .deco:nth-child(16) { top:92%; right:28%; animation-delay:-5s;  font-size:1.6rem; }
+  .deco:nth-child(17) { top:18%; left:70%; animation-delay:-8s;  font-size:1.4rem; }
+  .deco:nth-child(18) { top:52%; left:78%; animation-delay:-13s; font-size:1.8rem; }
+  .deco:nth-child(19) { top:8%;  left:58%; animation-delay:-17s; font-size:1.3rem; }
+  .deco:nth-child(20) { top:66%; left:52%; animation-delay:-20s; font-size:1.5rem; }
+
+  @keyframes floatDeco {
+    0%   { transform: translateY(0) rotate(0deg) scale(1); }
+    25%  { transform: translateY(-25px) rotate(8deg) scale(1.08); }
+    50%  { transform: translateY(-10px) rotate(-4deg) scale(0.94); }
+    75%  { transform: translateY(-35px) rotate(6deg) scale(1.04); }
+    100% { transform: translateY(0) rotate(0deg) scale(1); }
+  }
+
+  /* ── 飘落的花瓣与爱心 ── */
+  .falling-layer {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    top: 0; left: 0; width: 100%; height: 100%;
+    overflow: hidden;
+  }
+  .petal {
+    position: absolute;
+    top: -8%;
+    animation: fallDown linear infinite;
+    opacity: 0.65;
+  }
+  .petal:nth-child(1)  { left:5%;  font-size:1.1rem; animation-duration:11s; animation-delay:0s;   }
+  .petal:nth-child(2)  { left:15%; font-size:0.9rem; animation-duration:14s; animation-delay:-3s;  }
+  .petal:nth-child(3)  { left:25%; font-size:1.3rem; animation-duration:10s; animation-delay:-6s;  }
+  .petal:nth-child(4)  { left:35%; font-size:1rem;   animation-duration:15s; animation-delay:-9s;  }
+  .petal:nth-child(5)  { left:45%; font-size:1.2rem; animation-duration:12s; animation-delay:-2s;  }
+  .petal:nth-child(6)  { left:55%; font-size:0.9rem; animation-duration:16s; animation-delay:-7s;  }
+  .petal:nth-child(7)  { left:65%; font-size:1.1rem; animation-duration:11s; animation-delay:-11s; }
+  .petal:nth-child(8)  { left:75%; font-size:1.3rem; animation-duration:13s; animation-delay:-4s;  }
+  .petal:nth-child(9)  { left:85%; font-size:1rem;   animation-duration:14s; animation-delay:-8s;  }
+  .petal:nth-child(10) { left:95%; font-size:1.2rem; animation-duration:12s; animation-delay:-13s; }
+  .petal:nth-child(11) { left:10%; font-size:0.8rem; animation-duration:17s; animation-delay:-5s;  }
+  .petal:nth-child(12) { left:90%; font-size:0.9rem; animation-duration:15s; animation-delay:-10s; }
+
+  @keyframes fallDown {
+    0%   { transform: translateY(0) rotate(0deg); }
+    50%  { transform: translateY(55vh) translateX(30px) rotate(180deg); }
+    100% { transform: translateY(115vh) translateX(-20px) rotate(360deg); }
+  }
+
+  /* ── 主体容器 ── */
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  /* ── 顶部 ── */
+  .header {
+    text-align: center;
+    padding: 28px 16px 10px;
+  }
+
+  .header-icons {
+    font-size: 2.2rem;
+    letter-spacing: 6px;
+  }
+  .header-icons .bounce1 { animation: bounceIcon 1.4s ease infinite; }
+  .header-icons .bounce2 { animation: bounceIcon 1.4s ease 0.3s infinite; }
+  .header-icons .bounce3 { animation: bounceIcon 1.4s ease 0.6s infinite; }
+
+  @keyframes bounceIcon {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .title {
+    font-family: 'ZCOOL KuaiLe', cursive;
+    font-size: 3rem;
+    color: var(--kitty-red);
+    text-shadow: 3px 3px 0px rgba(255,143,171,0.35), 6px 6px 0px rgba(255,209,220,0.4);
+    margin-top: 4px;
+    letter-spacing: 2px;
+  }
+
+  .subtitle {
+    font-family: 'ZCOOL KuaiLe', cursive;
+    color: #C4708A;
+    font-size: 1.25rem;
+    margin-top: 8px;
+    letter-spacing: 3px;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.8);
+  }
+
+  /* ── Hello Kitty 蝴蝶结装饰线 ── */
+  .ribbon-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 8px 0 16px;
+  }
+  .ribbon-divider .line {
+    flex: 1;
+    max-width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--bow-pink), transparent);
+  }
+  .ribbon-divider .ribbon {
+    font-size: 1.4rem;
+    animation: bounceIcon 2s ease infinite;
+  }
+
+  /* ── 连续天数 ── */
+  .streak-bar {
+    font-family: 'ZCOOL KuaiLe', cursive;
+    text-align: center;
+    padding: 12px 22px;
+    font-size: 1.05rem;
+    color: #B0788C;
+    background: rgba(255,255,255,0.7);
+    border-radius: 24px;
+    margin: 0 auto 16px;
+    max-width: 300px;
+    backdrop-filter: blur(6px);
+    border: 2px dashed var(--bow-pink);
+    box-shadow: 0 4px 14px rgba(255,143,171,0.12);
+  }
+  .streak-bar span { font-weight: 700; color: var(--kitty-red); font-size: 1.3rem; }
+
+  /* ── 日期导航 ── */
+  .date-nav {
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(10px);
+    border-radius: 22px;
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border: 2px dashed var(--bow-pink);
+    box-shadow: 0 4px 18px rgba(255,143,171,0.09);
+  }
+
+  .date-nav button {
+    background: #FFF0F3;
+    border: none;
+    border-radius: 50%;
+    width: 36px; height: 36px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--kitty-red);
+  }
+  .date-nav button:hover { background: var(--bow-pink); transform: scale(1.1); color: white; }
+
+  .date-display {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    min-width: 140px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .date-display:hover { color: var(--kitty-red); }
+
+  .today-btn {
+    background: var(--kitty-red) !important;
+    color: white !important;
+    border-radius: 16px !important;
+    width: auto !important;
+    padding: 0 14px !important;
+    font-size: 0.82rem !important;
+    font-weight: 700;
+  }
+
+  /* ── 日记卡片 ── */
+  .diary-card {
+    background: rgba(255,255,255,0.78);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 24px;
+    border: 3px solid var(--bow-pink);
+    box-shadow: 0 8px 28px rgba(255,143,171,0.1);
+    position: relative;
+    overflow: visible;
+    transition: all 0.3s;
+  }
+
+  /* Hello Kitty 蝴蝶结角标 */
+  .diary-card::before {
+    content: '🎀';
+    position: absolute;
+    top: -16px;
+    right: 20px;
+    font-size: 2rem;
+    filter: drop-shadow(0 2px 4px rgba(255,105,180,0.3));
+    animation: bounceIcon 2.5s ease infinite;
+  }
+
+  /* 小狗爪印角标 */
+  .diary-card::after {
+    content: '🐾🌸';
+    position: absolute;
+    bottom: -14px;
+    left: 20px;
+    font-size: 1.6rem;
+    opacity: 0.7;
+  }
+
+  /* 卡片左上角小花 */
+  .card-flower {
+    position: absolute;
+    top: -14px;
+    left: 18px;
+    font-size: 1.7rem;
+    animation: spinFlower 8s linear infinite;
+    filter: drop-shadow(0 2px 3px rgba(255,143,171,0.3));
+  }
+  @keyframes spinFlower {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  /* Hello Kitty 风格头像框 */
+  .card-avatar {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+    background: #FFE4E9;
+    border: 3px solid var(--kitty-red);
+    box-shadow: 0 0 0 4px rgba(255,143,171,0.2);
+    position: relative;
+  }
+  .card-avatar .bow {
+    position: absolute;
+    top: -12px;
+    right: -8px;
+    font-size: 1rem;
+  }
+
+  .card-label {
+    font-family: 'ZCOOL KuaiLe', cursive;
+    font-weight: 700;
+    font-size: 1.45rem;
+    color: var(--kitty-red);
+    letter-spacing: 1px;
+  }
+  .card-label small {
+    display: block;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 400;
+    font-size: 0.82rem;
+    color: var(--text-gray);
+    margin-top: 3px;
+    letter-spacing: 1px;
+  }
+
+  /* 心情选择 */
+  .mood-selector {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .mood-btn {
+    background: white;
+    border: 2px solid #F5E1E6;
+    border-radius: 16px;
+    padding: 5px 12px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .mood-btn:hover, .mood-btn.active {
+    border-color: var(--kitty-red);
+    background: #FFF0F3;
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(255,105,180,0.15);
+  }
+
+  /* 文本框 */
+  .diary-textarea {
+    width: 100%;
+    min-height: 200px;
+    border: 2px solid #F5E1E6;
+    border-radius: 16px;
+    padding: 14px;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background: rgba(255,245,247,0.5);
+  }
+  .diary-textarea:focus {
+    border-color: var(--kitty-pink);
+    box-shadow: 0 0 0 4px rgba(255,143,171,0.08);
+  }
+  .diary-textarea::placeholder {
+    color: #D4BCC4;
+  }
+
+  .save-indicator {
+    font-size: 0.78rem;
+    color: #bbb;
+    text-align: right;
+    margin-top: 8px;
+    min-height: 20px;
+    transition: all 0.3s;
+  }
+  .save-indicator.saved { color: #7EC88A; }
+
+  /* ── 底部按钮 ── */
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 18px 0 24px;
+  }
+
+  .btn {
+    padding: 12px 26px;
+    border-radius: 24px;
+    border: none;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 2px;
+    font-family: 'ZCOOL KuaiLe', cursive;
+  }
+
+  .btn-save {
+    background: linear-gradient(135deg, var(--kitty-pink), var(--kitty-red));
+    color: white;
+    box-shadow: 0 4px 16px rgba(230,57,70,0.25);
+  }
+  .btn-save:hover { transform: scale(1.05); box-shadow: 0 6px 22px rgba(230,57,70,0.4); }
+
+  .btn-history {
+    background: white;
+    color: var(--kitty-red);
+    border: 2px solid var(--bow-pink);
+  }
+  .btn-history:hover { background: #FFF0F3; }
+
+  .btn-random {
+    background: white;
+    color: #C490A0;
+    border: 2px solid #F5E1E6;
+  }
+  .btn-random:hover { background: #FFFACD; border-color: #FFD700; }
+
+  /* ── 底部小猫签名 ── */
+  .footer-note {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #D4BCC4;
+    padding-bottom: 30px;
+    letter-spacing: 1px;
+  }
+
+  /* ── 历史弹窗 ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(92,64,51,0.25);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-overlay.show { display: flex; }
+
+  .modal {
+    background: white;
+    border-radius: 24px;
+    max-width: 520px;
+    width: 90%;
+    max-height: 72vh;
+    overflow-y: auto;
+    padding: 24px;
+    box-shadow: 0 20px 50px rgba(255,105,180,0.18);
+    border: 3px solid var(--bow-pink);
+    position: relative;
+  }
+  .modal::before {
+    content: '🎀';
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.8rem;
+  }
+
+  .modal h3 {
+    font-family: 'ZCOOL KuaiLe', cursive;
+    text-align: center;
+    color: var(--kitty-red);
+    margin: 8px 0 16px;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+  }
+
+  .history-entry {
+    background: #FFF5F7;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-left: 4px solid var(--kitty-pink);
+  }
+  .history-entry:hover { background: #FFE8EE; transform: translateX(4px); }
+  .history-date { font-weight: 700; color: var(--kitty-red); }
+  .history-preview { font-size: 0.85rem; color: #9A7E7E; margin-top: 4px; }
+  .history-empty { text-align: center; color: #C490A0; padding: 30px; }
+
+  .modal-close {
+    display: block;
+    margin: 16px auto 0;
+    padding: 8px 28px;
+    border-radius: 20px;
+    border: 2px solid var(--bow-pink);
+    background: white;
+    color: var(--kitty-red);
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.2s;
+  }
+  .modal-close:hover { background: #FFF0F3; }
+
+  /* ── Kitty 色块装饰条 ── */
+  .kitty-stripe {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin: 4px 0 14px;
+  }
+  .kitty-stripe span {
+    display: inline-block;
+    width: 22px; height: 5px;
+    border-radius: 3px;
+  }
+  .kitty-stripe span:nth-child(1) { background: var(--kitty-red); }
+  .kitty-stripe span:nth-child(2) { background: var(--kitty-pink); }
+  .kitty-stripe span:nth-child(3) { background: #FFD1DC; }
+  .kitty-stripe span:nth-child(4) { background: var(--bow-pink); }
+  .kitty-stripe span:nth-child(5) { background: #FFF0F3; }
+
+  #hiddenDateInput {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ── 口令门 ── */
+  .gate-overlay {
+    position: fixed; inset: 0;
+    background: linear-gradient(135deg, #FFF0F5, #FFE4EC, #FFF5F7);
+    z-index: 999;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 14px; text-align: center; padding: 20px;
+  }
+  .gate-overlay.hidden { display: none; }
+  .gate-emoji { font-size: 3.4rem; animation: bounceIcon 1.6s ease infinite; }
+  .gate-title {
+    font-family: 'ZCOOL KuaiLe', cursive;
+    font-size: 1.8rem; color: var(--kitty-red);
+    text-shadow: 2px 2px 0 rgba(255,143,171,0.3);
+  }
+  .gate-question { font-size: 1.1rem; color: var(--text-dark); font-weight: 700; }
+  .gate-input {
+    border: 2.5px solid var(--bow-pink);
+    border-radius: 20px;
+    padding: 12px 18px;
+    font-size: 1.05rem;
+    outline: none;
+    text-align: center;
+    width: min(280px, 80vw);
+    font-family: 'Noto Sans SC', sans-serif;
+    background: white;
+    transition: all 0.2s;
+  }
+  .gate-input:focus { border-color: var(--kitty-red); box-shadow: 0 0 0 4px rgba(255,143,171,0.15); }
+  .gate-hint { font-size: 0.9rem; color: #C490A0; min-height: 22px; }
+  .gate-shake { animation: gateShake 0.4s; }
+  @keyframes gateShake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-9px); }
+    75% { transform: translateX(9px); }
+  }
+</style>
+</head>
+<body>
+
+<!-- 口令门 -->
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-emoji">🐶🔒</div>
+  <div class="gate-title">悄悄话验证</div>
+  <div class="gate-question" id="gateQuestion"></div>
+  <input class="gate-input" id="gateInput" placeholder="输入口令 💕" onkeydown="if(event.key==='Enter')checkGate()">
+  <button class="btn btn-save" onclick="checkGate()">开门啦 🌸</button>
+  <div class="gate-hint" id="gateHint"></div>
+</div>
+
+<div class="floating-decos">
+  <span class="deco">🐶</span><span class="deco">🎀</span><span class="deco">🌸</span>
+  <span class="deco">💕</span><span class="deco">🐶</span><span class="deco">🌷</span>
+  <span class="deco">🐾</span><span class="deco">💖</span><span class="deco">🌺</span>
+  <span class="deco">🎀</span><span class="deco">🌼</span><span class="deco">💗</span>
+  <span class="deco">🌸</span><span class="deco">🐾</span><span class="deco">💝</span>
+  <span class="deco">🌻</span><span class="deco">💓</span><span class="deco">🌸</span>
+  <span class="deco">💘</span><span class="deco">🌷</span>
+</div>
+
+<div class="falling-layer">
+  <span class="petal">🌸</span><span class="petal">💕</span><span class="petal">🌸</span>
+  <span class="petal">💗</span><span class="petal">🌺</span><span class="petal">💖</span>
+  <span class="petal">🌸</span><span class="petal">🌷</span><span class="petal">💕</span>
+  <span class="petal">🌸</span><span class="petal">💓</span><span class="petal">🌼</span>
+</div>
+
+<div class="container">
+
+  <!-- 头部 -->
+  <div class="header">
+    <div class="header-icons">
+      <span class="bounce1">🐶</span>
+      <span class="bounce2">💕</span>
+      <span class="bounce3">😿</span>
+    </div>
+    <div class="title">汪汪与小哭宝</div>
+    <div class="subtitle">🌸 每日甜甜小记 🌸</div>
+  </div>
+
+  <div class="kitty-stripe"><span></span><span></span><span></span><span></span><span></span></div>
+
+  <div class="ribbon-divider">
+    <div class="line"></div>
+    <span class="ribbon">🌷</span>
+    <span class="ribbon" style="animation-delay:0.3s">🎀</span>
+    <span class="ribbon" style="animation-delay:0.6s">🌷</span>
+    <div class="line"></div>
+  </div>
+
+  <!-- 连续天数 -->
+  <div class="streak-bar">🔥 已经连续记录了 <span id="streakCount">0</span> 天的甜甜日常</div>
+
+  <!-- 日期导航 -->
+  <div class="date-nav">
+    <button onclick="changeDate(-1)">◀</button>
+    <div class="date-display" id="dateDisplay" onclick="document.getElementById('hiddenDateInput').showPicker()"></div>
+    <input type="date" id="hiddenDateInput" onchange="onDatePickerChange()">
+    <button onclick="changeDate(1)">▶</button>
+    <button class="today-btn" onclick="goToday()">📅 今天</button>
+  </div>
+
+  <!-- 日记卡片 -->
+  <div class="diary-card">
+    <span class="card-flower">🌸</span>
+    <div class="card-header">
+      <div class="card-avatar">
+        🐶
+        <span class="bow">🎀</span>
+      </div>
+      <div class="card-label">
+        汪汪的日记
+        <small>写给最可爱的小哭宝 😿💕</small>
+      </div>
+    </div>
+
+    <div class="mood-selector" id="moodSelector">
+      <button class="mood-btn" data-mood="😊">😊</button>
+      <button class="mood-btn" data-mood="😄">😄</button>
+      <button class="mood-btn" data-mood="🥰">🥰</button>
+      <button class="mood-btn" data-mood="😤">😤</button>
+      <button class="mood-btn" data-mood="😢">😢</button>
+      <button class="mood-btn" data-mood="🤔">🤔</button>
+      <button class="mood-btn" data-mood="😴">😴</button>
+    </div>
+
+    <textarea
+      class="diary-textarea"
+      id="diaryContent"
+      placeholder="今天和小哭宝发生了什么？🐶&#10;比如：今天她又哭鼻子啦……哄了好久才破涕为笑，笑起来眼睛弯弯的……&#10;比如：带她去吃了新开的甜品店，她眼睛亮起来的样子好好看……"
+    ></textarea>
+    <div class="save-indicator" id="saveIndicator"></div>
+  </div>
+
+  <!-- 按钮 -->
+  <div class="btn-row">
+    <button class="btn btn-save" onclick="saveDiary()">💾 保存日记</button>
+    <button class="btn btn-history" onclick="showHistory()">📖 翻阅回忆</button>
+    <button class="btn btn-random" onclick="randomDay()">🎲 随机回忆</button>
+    <button class="btn btn-random" onclick="exportCloudData()">📤 导出云端包</button>
+  </div>
+
+  <div class="footer-note">
+    🐶 汪汪 💖 小哭宝 😿 · 每天都要甜甜的哦 🌸
+  </div>
+
+</div>
+
+<!-- 历史弹窗 -->
+<div class="modal-overlay" id="historyModal" onclick="if(event.target===this)closeHistory()">
+  <div class="modal">
+    <h3>📖 汪汪与小哭宝的回忆簿</h3>
+    <div id="historyList"></div>
+    <button class="modal-close" onclick="closeHistory()">关 闭</button>
+  </div>
+</div>
+
+<script src="diary-data.js"></script>
+<script>
+  /* ═══ 口令门配置（想换暗号就改下面两行）═══ */
+  const GATE_QUESTION = '汪汪最爱的人是谁呀？';
+  const GATE_ANSWER   = '小哭宝';
+
+  const STORAGE_KEY = 'nanny_diary_entries';
+  const today = () => new Date().toISOString().split('T')[0];
+
+  let currentDate = today();
+  let currentMood = '';
+
+  // ── 口令门 ──
+  function checkGate() {
+    const input = document.getElementById('gateInput');
+    if (input.value.trim() === GATE_ANSWER) {
+      localStorage.setItem('nanny_gate_ok', '1');
+      document.getElementById('gateOverlay').classList.add('hidden');
+    } else {
+      input.classList.add('gate-shake');
+      document.getElementById('gateHint').textContent = '不对哦～再想想 😿';
+      setTimeout(() => input.classList.remove('gate-shake'), 450);
+    }
+  }
+  document.getElementById('gateQuestion').textContent = GATE_QUESTION;
+  if (localStorage.getItem('nanny_gate_ok') === '1') {
+    document.getElementById('gateOverlay').classList.add('hidden');
+  }
+
+  // ── 日期工具 ──
+  function formatDateCN(dateStr) {
+    const d = new Date(dateStr + 'T00:00:00');
+    const weekdays = ['日','一','二','三','四','五','六'];
+    return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 星期${weekdays[d.getDay()]}`;
+  }
+
+  function changeDate(delta) {
+    const d = new Date(currentDate + 'T00:00:00');
+    d.setDate(d.getDate() + delta);
+    currentDate = d.toISOString().split('T')[0];
+    loadDate();
+  }
+
+  function goToday() {
+    currentDate = today();
+    loadDate();
+  }
+
+  function onDatePickerChange() {
+    currentDate = document.getElementById('hiddenDateInput').value;
+    loadDate();
+  }
+
+  // ── 数据读写（云端内嵌数据 + 本地数据合并，本地优先）──
+  function getAllEntries() {
+    let local = {};
+    try { local = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+    catch(e) {}
+    return Object.assign({}, window.PRELOADED_ENTRIES || {}, local);
+  }
+
+  // ── 导出云端包：生成 diary-data.js，用于发布到网上 ──
+  function exportCloudData() {
+    const data = 'window.PRELOADED_ENTRIES = ' + JSON.stringify(getAllEntries(), null, 2) + ';';
+    const blob = new Blob([data], { type: 'text/javascript' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'diary-data.js';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    alert('📤 已导出 diary-data.js（在下载文件夹里）\n把它放进网站文件夹重新发布，云端就有最新日记啦～');
+  }
+
+  function saveDiary() {
+    const entries = getAllEntries();
+    entries[currentDate] = {
+      content: document.getElementById('diaryContent').value.trim(),
+      mood: currentMood,
+      savedAt: new Date().toISOString()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+
+    const indicator = document.getElementById('saveIndicator');
+    indicator.textContent = '✅ 已保存';
+    indicator.className = 'save-indicator saved';
+    updateStreak();
+    setTimeout(() => {
+      indicator.textContent = '';
+      indicator.className = 'save-indicator';
+    }, 2000);
+  }
+
+  function loadDate() {
+    const entries = getAllEntries();
+    const entry = entries[currentDate];
+
+    document.getElementById('dateDisplay').textContent = formatDateCN(currentDate);
+    document.getElementById('hiddenDateInput').value = currentDate;
+
+    if (entry) {
+      document.getElementById('diaryContent').value = entry.content || '';
+      currentMood = entry.mood || '';
+    } else {
+      document.getElementById('diaryContent').value = '';
+      currentMood = '';
+    }
+
+    updateMoodUI();
+    document.getElementById('saveIndicator').textContent = '';
+    document.getElementById('saveIndicator').className = 'save-indicator';
+    updateStreak();
+
+    // Kitty 彩蛋：特殊日期提示
+    const month = currentDate.slice(5,7);
+    const day = currentDate.slice(8,10);
+    if (month === '02' && day === '14') {
+      document.getElementById('diaryContent').placeholder = '💕 今天是情人节！对小哭宝说点什么吧……';
+    }
+  }
+
+  // ── 心情 ──
+  function updateMoodUI() {
+    document.querySelectorAll('#moodSelector .mood-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.mood === currentMood);
+    });
+  }
+
+  document.getElementById('moodSelector').addEventListener('click', e => {
+    if (e.target.classList.contains('mood-btn')) {
+      currentMood = e.target.dataset.mood;
+      updateMoodUI();
+    }
+  });
+
+  // ── 连续天数 ──
+  function updateStreak() {
+    const entries = getAllEntries();
+    let streak = 0;
+    const d = new Date(today() + 'T00:00:00');
+    while (true) {
+      const dateStr = d.toISOString().split('T')[0];
+      if (entries[dateStr] && entries[dateStr].content) {
+        streak++;
+        d.setDate(d.getDate() - 1);
+      } else break;
+    }
+    document.getElementById('streakCount').textContent = streak;
+  }
+
+  // ── 历史弹窗 ──
+  function showHistory() {
+    const entries = getAllEntries();
+    const dates = Object.keys(entries).sort().reverse();
+    const list = document.getElementById('historyList');
+
+    if (dates.length === 0) {
+      list.innerHTML = '<div class="history-empty">🐶 还没有日记哦~<br>汪汪快写下和小哭宝的第一篇吧！🌸</div>';
+    } else {
+      list.innerHTML = dates.map(date => {
+        const e = entries[date];
+        const preview = e.content ? e.content.slice(0, 40) + '...' : '';
+        return `
+          <div class="history-entry" onclick="jumpToDate('${date}')">
+            <div class="history-date">📅 ${formatDateCN(date)} ${e.mood||''}</div>
+            <div class="history-preview">${preview || '（空）'}</div>
+          </div>`;
+      }).join('');
+    }
+
+    document.getElementById('historyModal').classList.add('show');
+  }
+
+  function closeHistory() {
+    document.getElementById('historyModal').classList.remove('show');
+  }
+
+  function jumpToDate(date) {
+    currentDate = date;
+    loadDate();
+    closeHistory();
+  }
+
+  function randomDay() {
+    const entries = getAllEntries();
+    const dates = Object.keys(entries);
+    if (dates.length === 0) {
+      alert('🐶 还没有日记呢，汪汪快去写第一篇吧！🌸');
+      return;
+    }
+    currentDate = dates[Math.floor(Math.random() * dates.length)];
+    loadDate();
+  }
+
+  // ── 快捷键 ──
+  document.addEventListener('keydown', e => {
+    if (e.ctrlKey && e.key === 's') { e.preventDefault(); saveDiary(); }
+    if (e.ctrlKey && e.key === 'ArrowLeft') { e.preventDefault(); changeDate(-1); }
+    if (e.ctrlKey && e.key === 'ArrowRight') { e.preventDefault(); changeDate(1); }
+  });
+
+  // ── 自动保存 ──
+  let autoSaveTimer;
+  document.getElementById('diaryContent').addEventListener('input', () => {
+    clearTimeout(autoSaveTimer);
+    autoSaveTimer = setTimeout(saveDiary, 3000);
+  });
+
+  // ── 初始化 ──
+  loadDate();
+  updateStreak();
+</script>
+</body>
+</html>
